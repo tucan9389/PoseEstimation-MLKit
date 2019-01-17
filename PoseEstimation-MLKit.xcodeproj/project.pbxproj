@@ -12,9 +12,12 @@
 		5503D9F221F04D1200D4D2F1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5503D9F021F04D1200D4D2F1 /* Main.storyboard */; };
 		5503D9F421F04D1300D4D2F1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5503D9F321F04D1300D4D2F1 /* Assets.xcassets */; };
 		5503D9F721F04D1300D4D2F1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5503D9F521F04D1300D4D2F1 /* LaunchScreen.storyboard */; };
+		5503D9FF21F04F4900D4D2F1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5503D9FE21F04F4900D4D2F1 /* GoogleService-Info.plist */; };
+		BF836B5CA69AACF1E5FC6039 /* Pods_PoseEstimation_MLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7C41E82861E9507891FE8F8 /* Pods_PoseEstimation_MLKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		07AF35A8771174DEBC6961CE /* Pods-PoseEstimation-MLKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PoseEstimation-MLKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-PoseEstimation-MLKit/Pods-PoseEstimation-MLKit.release.xcconfig"; sourceTree = "<group>"; };
 		5503D9E921F04D1200D4D2F1 /* PoseEstimation-MLKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PoseEstimation-MLKit.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5503D9EC21F04D1200D4D2F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5503D9EE21F04D1200D4D2F1 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -22,6 +25,9 @@
 		5503D9F321F04D1300D4D2F1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5503D9F621F04D1300D4D2F1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5503D9F821F04D1400D4D2F1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5503D9FE21F04F4900D4D2F1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		8DE9CCF0677AF2F0C50387C9 /* Pods-PoseEstimation-MLKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PoseEstimation-MLKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PoseEstimation-MLKit/Pods-PoseEstimation-MLKit.debug.xcconfig"; sourceTree = "<group>"; };
+		C7C41E82861E9507891FE8F8 /* Pods_PoseEstimation_MLKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PoseEstimation_MLKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +35,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF836B5CA69AACF1E5FC6039 /* Pods_PoseEstimation_MLKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -40,6 +47,8 @@
 			children = (
 				5503D9EB21F04D1200D4D2F1 /* PoseEstimation-MLKit */,
 				5503D9EA21F04D1200D4D2F1 /* Products */,
+				77084C47D94F14F37F65C732 /* Pods */,
+				9029C4BED8DBFE4A7314243A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -60,8 +69,26 @@
 				5503D9F321F04D1300D4D2F1 /* Assets.xcassets */,
 				5503D9F521F04D1300D4D2F1 /* LaunchScreen.storyboard */,
 				5503D9F821F04D1400D4D2F1 /* Info.plist */,
+				5503D9FE21F04F4900D4D2F1 /* GoogleService-Info.plist */,
 			);
 			path = "PoseEstimation-MLKit";
+			sourceTree = "<group>";
+		};
+		77084C47D94F14F37F65C732 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				8DE9CCF0677AF2F0C50387C9 /* Pods-PoseEstimation-MLKit.debug.xcconfig */,
+				07AF35A8771174DEBC6961CE /* Pods-PoseEstimation-MLKit.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		9029C4BED8DBFE4A7314243A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C7C41E82861E9507891FE8F8 /* Pods_PoseEstimation_MLKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -71,9 +98,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5503D9FB21F04D1400D4D2F1 /* Build configuration list for PBXNativeTarget "PoseEstimation-MLKit" */;
 			buildPhases = (
+				559868083A86B5A5933A0BEB /* [CP] Check Pods Manifest.lock */,
 				5503D9E521F04D1200D4D2F1 /* Sources */,
 				5503D9E621F04D1200D4D2F1 /* Frameworks */,
 				5503D9E721F04D1200D4D2F1 /* Resources */,
+				34B241C4D16E7583034C8838 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -125,10 +154,68 @@
 				5503D9F721F04D1300D4D2F1 /* LaunchScreen.storyboard in Resources */,
 				5503D9F421F04D1300D4D2F1 /* Assets.xcassets in Resources */,
 				5503D9F221F04D1200D4D2F1 /* Main.storyboard in Resources */,
+				5503D9FF21F04F4900D4D2F1 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		34B241C4D16E7583034C8838 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-PoseEstimation-MLKit/Pods-PoseEstimation-MLKit-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleAPIClientForREST/GoogleAPIClientForREST.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleAPIClientForREST.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PoseEstimation-MLKit/Pods-PoseEstimation-MLKit-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		559868083A86B5A5933A0BEB /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-PoseEstimation-MLKit-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		5503D9E521F04D1200D4D2F1 /* Sources */ = {
@@ -280,6 +367,7 @@
 		};
 		5503D9FC21F04D1400D4D2F1 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8DE9CCF0677AF2F0C50387C9 /* Pods-PoseEstimation-MLKit.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -298,6 +386,7 @@
 		};
 		5503D9FD21F04D1400D4D2F1 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 07AF35A8771174DEBC6961CE /* Pods-PoseEstimation-MLKit.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
