@@ -13,6 +13,7 @@
 		5503D9F421F04D1300D4D2F1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5503D9F321F04D1300D4D2F1 /* Assets.xcassets */; };
 		5503D9F721F04D1300D4D2F1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5503D9F521F04D1300D4D2F1 /* LaunchScreen.storyboard */; };
 		5503D9FF21F04F4900D4D2F1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5503D9FE21F04F4900D4D2F1 /* GoogleService-Info.plist */; };
+		5503DA0121F0510900D4D2F1 /* VideoCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5503DA0021F0510900D4D2F1 /* VideoCapture.swift */; };
 		BF836B5CA69AACF1E5FC6039 /* Pods_PoseEstimation_MLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7C41E82861E9507891FE8F8 /* Pods_PoseEstimation_MLKit.framework */; };
 /* End PBXBuildFile section */
 
@@ -26,6 +27,7 @@
 		5503D9F621F04D1300D4D2F1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5503D9F821F04D1400D4D2F1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5503D9FE21F04F4900D4D2F1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		5503DA0021F0510900D4D2F1 /* VideoCapture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCapture.swift; sourceTree = "<group>"; };
 		8DE9CCF0677AF2F0C50387C9 /* Pods-PoseEstimation-MLKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PoseEstimation-MLKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PoseEstimation-MLKit/Pods-PoseEstimation-MLKit.debug.xcconfig"; sourceTree = "<group>"; };
 		C7C41E82861E9507891FE8F8 /* Pods_PoseEstimation_MLKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PoseEstimation_MLKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -65,6 +67,7 @@
 			children = (
 				5503D9EC21F04D1200D4D2F1 /* AppDelegate.swift */,
 				5503D9EE21F04D1200D4D2F1 /* ViewController.swift */,
+				5503DA0021F0510900D4D2F1 /* VideoCapture.swift */,
 				5503D9F021F04D1200D4D2F1 /* Main.storyboard */,
 				5503D9F321F04D1300D4D2F1 /* Assets.xcassets */,
 				5503D9F521F04D1300D4D2F1 /* LaunchScreen.storyboard */,
@@ -223,6 +226,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5503D9EF21F04D1200D4D2F1 /* ViewController.swift in Sources */,
+				5503DA0121F0510900D4D2F1 /* VideoCapture.swift in Sources */,
 				5503D9ED21F04D1200D4D2F1 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
