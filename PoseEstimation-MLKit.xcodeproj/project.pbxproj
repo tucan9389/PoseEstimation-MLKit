@@ -14,6 +14,13 @@
 		5503D9F721F04D1300D4D2F1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5503D9F521F04D1300D4D2F1 /* LaunchScreen.storyboard */; };
 		5503D9FF21F04F4900D4D2F1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5503D9FE21F04F4900D4D2F1 /* GoogleService-Info.plist */; };
 		5503DA0121F0510900D4D2F1 /* VideoCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5503DA0021F0510900D4D2F1 /* VideoCapture.swift */; };
+		5503DA0621F0550200D4D2F1 /* UIImage+TFLite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5503DA0221F0550200D4D2F1 /* UIImage+TFLite.swift */; };
+		5503DA0721F0550200D4D2F1 /* DetectorService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5503DA0321F0550200D4D2F1 /* DetectorService.swift */; };
+		5503DA0821F0550200D4D2F1 /* CMSampleBuffer+UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5503DA0421F0550200D4D2F1 /* CMSampleBuffer+UIImage.swift */; };
+		5503DA0921F0550200D4D2F1 /* CGImage+TFLite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5503DA0521F0550200D4D2F1 /* CGImage+TFLite.swift */; };
+		555B476B21F06064009026AB /* multi_person_mobilenet_v1_075_float.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 555B476A21F06064009026AB /* multi_person_mobilenet_v1_075_float.tflite */; };
+		555B476F21F5E512009026AB /* model_hourglass.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 555B476E21F5E512009026AB /* model_hourglass.tflite */; };
+		555B477221F6078E009026AB /* PoseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555B477121F60754009026AB /* PoseView.swift */; };
 		BF836B5CA69AACF1E5FC6039 /* Pods_PoseEstimation_MLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7C41E82861E9507891FE8F8 /* Pods_PoseEstimation_MLKit.framework */; };
 /* End PBXBuildFile section */
 
@@ -28,6 +35,13 @@
 		5503D9F821F04D1400D4D2F1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5503D9FE21F04F4900D4D2F1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5503DA0021F0510900D4D2F1 /* VideoCapture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCapture.swift; sourceTree = "<group>"; };
+		5503DA0221F0550200D4D2F1 /* UIImage+TFLite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+TFLite.swift"; sourceTree = "<group>"; };
+		5503DA0321F0550200D4D2F1 /* DetectorService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetectorService.swift; sourceTree = "<group>"; };
+		5503DA0421F0550200D4D2F1 /* CMSampleBuffer+UIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CMSampleBuffer+UIImage.swift"; sourceTree = "<group>"; };
+		5503DA0521F0550200D4D2F1 /* CGImage+TFLite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGImage+TFLite.swift"; sourceTree = "<group>"; };
+		555B476A21F06064009026AB /* multi_person_mobilenet_v1_075_float.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = multi_person_mobilenet_v1_075_float.tflite; sourceTree = "<group>"; };
+		555B476E21F5E512009026AB /* model_hourglass.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = model_hourglass.tflite; sourceTree = "<group>"; };
+		555B477121F60754009026AB /* PoseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PoseView.swift; path = "../../PoseEstimation-CoreML/PoseEstimation-CoreML/PoseView.swift"; sourceTree = "<group>"; };
 		8DE9CCF0677AF2F0C50387C9 /* Pods-PoseEstimation-MLKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PoseEstimation-MLKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PoseEstimation-MLKit/Pods-PoseEstimation-MLKit.debug.xcconfig"; sourceTree = "<group>"; };
 		C7C41E82861E9507891FE8F8 /* Pods_PoseEstimation_MLKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PoseEstimation_MLKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -65,9 +79,13 @@
 		5503D9EB21F04D1200D4D2F1 /* PoseEstimation-MLKit */ = {
 			isa = PBXGroup;
 			children = (
+				555B476A21F06064009026AB /* multi_person_mobilenet_v1_075_float.tflite */,
+				555B476E21F5E512009026AB /* model_hourglass.tflite */,
 				5503D9EC21F04D1200D4D2F1 /* AppDelegate.swift */,
 				5503D9EE21F04D1200D4D2F1 /* ViewController.swift */,
+				555B477121F60754009026AB /* PoseView.swift */,
 				5503DA0021F0510900D4D2F1 /* VideoCapture.swift */,
+				555B477021F6030A009026AB /* TFLite Helper */,
 				5503D9F021F04D1200D4D2F1 /* Main.storyboard */,
 				5503D9F321F04D1300D4D2F1 /* Assets.xcassets */,
 				5503D9F521F04D1300D4D2F1 /* LaunchScreen.storyboard */,
@@ -75,6 +93,17 @@
 				5503D9FE21F04F4900D4D2F1 /* GoogleService-Info.plist */,
 			);
 			path = "PoseEstimation-MLKit";
+			sourceTree = "<group>";
+		};
+		555B477021F6030A009026AB /* TFLite Helper */ = {
+			isa = PBXGroup;
+			children = (
+				5503DA0321F0550200D4D2F1 /* DetectorService.swift */,
+				5503DA0221F0550200D4D2F1 /* UIImage+TFLite.swift */,
+				5503DA0521F0550200D4D2F1 /* CGImage+TFLite.swift */,
+				5503DA0421F0550200D4D2F1 /* CMSampleBuffer+UIImage.swift */,
+			);
+			path = "TFLite Helper";
 			sourceTree = "<group>";
 		};
 		77084C47D94F14F37F65C732 /* Pods */ = {
@@ -156,8 +185,10 @@
 			files = (
 				5503D9F721F04D1300D4D2F1 /* LaunchScreen.storyboard in Resources */,
 				5503D9F421F04D1300D4D2F1 /* Assets.xcassets in Resources */,
+				555B476F21F5E512009026AB /* model_hourglass.tflite in Resources */,
 				5503D9F221F04D1200D4D2F1 /* Main.storyboard in Resources */,
 				5503D9FF21F04F4900D4D2F1 /* GoogleService-Info.plist in Resources */,
+				555B476B21F06064009026AB /* multi_person_mobilenet_v1_075_float.tflite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -225,9 +256,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5503DA0721F0550200D4D2F1 /* DetectorService.swift in Sources */,
+				5503DA0821F0550200D4D2F1 /* CMSampleBuffer+UIImage.swift in Sources */,
+				5503DA0921F0550200D4D2F1 /* CGImage+TFLite.swift in Sources */,
+				555B477221F6078E009026AB /* PoseView.swift in Sources */,
 				5503D9EF21F04D1200D4D2F1 /* ViewController.swift in Sources */,
 				5503DA0121F0510900D4D2F1 /* VideoCapture.swift in Sources */,
 				5503D9ED21F04D1200D4D2F1 /* AppDelegate.swift in Sources */,
+				5503DA0621F0550200D4D2F1 /* UIImage+TFLite.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

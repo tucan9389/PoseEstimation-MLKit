@@ -25,16 +25,35 @@
                                     <constraint firstAttribute="width" secondItem="K0j-QR-av1" secondAttribute="height" multiplier="3:4" id="lhJ-tt-hOP"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D3u-A1-wdg" customClass="PoseView" customModule="PoseEstimation_MLKit" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="44" width="375" height="500"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Krx-Yl-MhS">
+                                <rect key="frame" x="0.0" y="544" width="375" height="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="D3u-A1-wdg" firstAttribute="width" secondItem="K0j-QR-av1" secondAttribute="width" id="NUE-na-fcr"/>
                             <constraint firstItem="K0j-QR-av1" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="NaW-Qu-kEi"/>
                             <constraint firstItem="K0j-QR-av1" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="OBz-1Q-cia"/>
+                            <constraint firstItem="Krx-Yl-MhS" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Tl5-0f-Y13"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Krx-Yl-MhS" secondAttribute="trailing" id="UaV-fM-c7O"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="K0j-QR-av1" secondAttribute="trailing" id="fwb-Lp-96X"/>
+                            <constraint firstItem="D3u-A1-wdg" firstAttribute="leading" secondItem="K0j-QR-av1" secondAttribute="leading" id="jOB-qs-hIJ"/>
+                            <constraint firstItem="D3u-A1-wdg" firstAttribute="height" secondItem="K0j-QR-av1" secondAttribute="height" id="uw8-CG-stF"/>
+                            <constraint firstItem="Krx-Yl-MhS" firstAttribute="top" secondItem="K0j-QR-av1" secondAttribute="bottom" id="wz9-sT-qLs"/>
+                            <constraint firstItem="D3u-A1-wdg" firstAttribute="top" secondItem="K0j-QR-av1" secondAttribute="top" id="xbT-m7-6m3"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="mylabel" destination="Krx-Yl-MhS" id="b9y-tT-UpI"/>
+                        <outlet property="poseView" destination="D3u-A1-wdg" id="XLS-FW-0MJ"/>
                         <outlet property="videoPreview" destination="K0j-QR-av1" id="36g-sx-ir8"/>
                     </connections>
                 </viewController>
