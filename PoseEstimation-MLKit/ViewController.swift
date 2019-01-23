@@ -26,6 +26,17 @@ class ViewController: UIViewController {
     @IBOutlet weak var videoPreview: UIView!
     @IBOutlet weak var poseView: PoseView!
     @IBOutlet weak var mylabel: UILabel!
+    @IBOutlet weak var labelsTableView: UITableView!
+    
+    @IBOutlet weak var inferenceLabel: UILabel!
+    @IBOutlet weak var etimeLabel: UILabel!
+    @IBOutlet weak var fpsLabel: UILabel!
+    
+    // MARK - Inference Result Data
+    private var tableData: [BodyPoint?] = []
+    
+    // MARK - Performance Measurement Property
+    private let 👨‍🔧 = 📏()
     
     // MARK: - AV Property
     var videoCapture: VideoCapture!
@@ -33,13 +44,20 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // 로컬의 tflite 모델 불러오기
         loadLocalModel()
         
         // 카메라 세팅
         setUpCamera()
         
+        // 레이블 테이블 세팅
+        labelsTableView.dataSource = self
+        
         // 레이블 점 세팅
         poseView.setUpOutputComponent()
+        
+        // 성능측정용 델리게이트 설정
+        👨‍🔧.delegate = self
     }
     
     // MARK: - SetUp Video
@@ -81,11 +99,30 @@ extension ViewController: VideoCaptureDelegate {
             let uiImage = UIImage(pixelBuffer: pixelBuffer) {
             
             // start of measure
-            //self.👨‍🔧.🎬👏()
+            self.👨‍🔧.🎬👏()
             
             // predict!
             self.detectObjects(uiImage: uiImage)
         }
+    }
+}
+
+// MARK: - UITableView Data Source
+extension ViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return tableData.count// > 0 ? 1 : 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "LabelCell", for: indexPath)
+        cell.textLabel?.text = Constant.pointLabels[indexPath.row]
+        if let body_point = tableData[indexPath.row] {
+            let pointText: String = "\(String(format: "%.3f", body_point.point.x)), \(String(format: "%.3f", body_point.point.y))"
+            cell.detailTextLabel?.text = "(\(pointText)), [\(String(format: "%.3f", body_point.confidence))]"
+        } else {
+            cell.detailTextLabel?.text = "N/A"
+        }
+        return cell
     }
 }
 
@@ -94,23 +131,15 @@ extension ViewController {
     /// Loads the local model.
     func loadLocalModel() {
         guard let localModelFilePath = Bundle.main.path(
-            forResource: Constants.localModelName,
-                 ofType: DetectorConstants.modelExtension
-            )
+            forResource: detectorService.modelConfigurations.localModelName,
+            ofType: detectorService.modelConfigurations.modelExtension)
             else {
                 self.mylabel.text = "Failed to get the paths to the local model."
                 return
         }
-        let localModelSource = LocalModelSource(
-            modelName: Constants.localModelName,
-            path: localModelFilePath
-        )
-        let modelManager = ModelManager.modelManager()
-        if !modelManager.register(localModelSource) {
-            print("Model source was already registered with name: \(localModelSource.modelName).")
-        }
-        let options = ModelOptions(cloudModelName: nil, localModelName: Constants.localModelName)
-        detectorService.loadModel(options: options)
+        
+        detectorService.modelConfigurations = PEFMModelConfigurations()
+        detectorService.loadModel(localModelFilePath: localModelFilePath)
     }
     
     
@@ -123,9 +152,10 @@ extension ViewController {
             let imageData = self.detectorService.scaledImageData(for: uiImage)
             
             self.detectorService.detectObjects(imageData: imageData) { (results, error) in
+                self.👨‍🔧.🏷(with: "endInference")
                 self.isInferencing = false
-//                // end of measure
-//                self.👨‍🔧.🎬🤚()
+                // end of measure
+                self.👨‍🔧.🎬🤚()
                 
                 guard error == nil, let heatmaps = results, !heatmaps.isEmpty else {
                     let errorString = error?.localizedDescription ?? Constants.failedToDetectObjectsMessage
@@ -140,8 +170,8 @@ extension ViewController {
                 // draw line
                 self.poseView.bodyPoints = n_kpoints
                 
-//                // show key points description
-//                self.showKeypointsDescription(with: n_kpoints)
+                // show key points description
+                self.showKeypointsDescription(with: n_kpoints)
             }
         }
     }
@@ -174,7 +204,7 @@ extension ViewController {
                     assert(true)
                 } else {
                     for keypointIndex in 0..<keypointCount {
-                        guard Float(truncating: columns[keypointIndex]) > 0 else { continue }
+                        // guard Float(truncating: columns[keypointIndex]) > 0 else { continue }
                         if n_kpoints[keypointIndex] == nil ||
                             (n_kpoints[keypointIndex] != nil && n_kpoints[keypointIndex]!.confidence < Double(truncating: columns[keypointIndex])) {
                             n_kpoints[keypointIndex] = (CGPoint(x: CGFloat(xIndex), y: CGFloat(yIndex)),
@@ -200,23 +230,14 @@ extension ViewController {
         return n_kpoints
     }
     
-    // MARK: - Private
-    
-    /// Returns a string representation of the detection results.
-    private func detectionResultsString(fromResults results: [CGPoint]?) -> String {
-        guard let results = results else { return Constants.failedToDetectObjectsMessage }
-//        return results.reduce("") { (resultString, result) -> String in
-////            let (label, confidence) = result
-////            return resultString + "\(label): \(String(describing: confidence))\n"
-//            return resultString
-//        }
-        return results.description
+    // MARK: -
+    func showKeypointsDescription(with n_kpoints: [BodyPoint?]) {
+        self.tableData = n_kpoints
+        self.labelsTableView.reloadData()
     }
 }
 
 fileprivate enum Constants {
-    static let localModelName = "model_hourglass"//"multi_person_mobilenet_v1_075_float"
-    
     static let detectionNoResultsMessage = "No results returned."
     static let failedToDetectObjectsMessage = "Failed to detect objects in image."
     
@@ -227,3 +248,12 @@ fileprivate enum Constants {
 }
 
 
+// MARK: - 📏(Performance Measurement) Delegate
+extension ViewController: 📏Delegate {
+    func updateMeasure(inferenceTime: Double, executionTime: Double, fps: Int) {
+        //print(executionTime, fps)
+        self.inferenceLabel.text = "inference: \(Int(inferenceTime*1000.0)) mm"
+        self.etimeLabel.text = "execution: \(Int(executionTime*1000.0)) mm"
+        self.fpsLabel.text = "fps: \(fps)"
+    }
+}

@@ -28,58 +28,25 @@ public enum DetectorError: Int, CustomNSError {
   public var errorUserInfo: [String: Any] { return [:] }
 }
 
-public enum DetectorConstants {
-
-  // MARK: - Public
-  public static let modelExtension = "tflite"
-
-  public static let topResultsCount: Int = 5
-
-  // MARK: - Fileprivate
-
-  fileprivate static let labelsSeparator = "\n"
-
-  fileprivate static let modelInputIndex: UInt = 0
-
-  fileprivate static let dimensionBatchSize: NSNumber = 1
-  fileprivate static let dimensionImageWidth: NSNumber = 192//353//257//224
-  fileprivate static let dimensionImageHeight: NSNumber = 192//224
-  fileprivate static let dimensionComponents: NSNumber = 3
-
-  fileprivate static let inputDimensions = [
-    dimensionBatchSize,
-    dimensionImageWidth,
-    dimensionImageHeight,
-    dimensionComponents,
-  ]
-
-    // [1,112,112,14]
-    fileprivate static let outputDimensionWidth: NSNumber = 48
-    fileprivate static let outputDimensionHeight: NSNumber = 48
-  fileprivate static let outputDimensionDepth: NSNumber = 14
-
-  fileprivate static let unsupportedElementByteSize: Int = 0
-  fileprivate static let maxRGBValue: Float32 = 255.0
-}
-
-//struct Keypoint {
-//    let point: CGPoint
-//    let confidence: CGFloat
-//}
-
 public class DetectorService: NSObject {
-
-//  public typealias DetectObjectsCompletion = ([(label: String, confidence: Float)]?, Error?) -> Void
-    // public typealias Keypoint = (point: CGPoint, confidence: CGFloat)
-    public typealias DetectObjectsCompletion = ([[[NSNumber]]]?, Error?) -> Void
-
+  public typealias DetectObjectsCompletion = ([[[NSNumber]]]?, Error?) -> Void
+    
   let modelInputOutputOptions = ModelInputOutputOptions()
   var modelInterpreter: ModelInterpreter?
   var modelElementType: ModelElementType = .float32
   var isModelQuantized = false
-  var modelInputDimensions = DetectorConstants.inputDimensions
+  var modelConfigurations: ModelConfigurations = PEFMModelConfigurations()
+  var modelInputDimensions: [NSNumber] {
+    get {
+      return [
+        modelConfigurations.dimensionBatchSize,
+        modelConfigurations.dimensionImageWidth,
+        modelConfigurations.dimensionImageHeight,
+        modelConfigurations.dimensionComponents,
+      ]
+    }
+  }
   var modelOutputDimensions = [NSNumber]()
-//  var labels = [String]()
 
   /// Loads a model with the given options and labels path.
   ///
@@ -93,46 +60,39 @@ public class DetectorService: NSObject {
   ///     if `inputDimensions` are specified.
   ///   - outputDimensions: An array of the output tensor dimensions. Must include `inputDimensions`
   ///     if `outputDimensions` are specified.
-  public func loadModel(
-    options: ModelOptions,
-    // labelsPath: String,
-    isQuantized: Bool = true,
-    inputDimensions: [NSNumber]? = nil,
-    outputDimensions: [NSNumber]? = nil
-    ) {
-    guard (inputDimensions != nil && outputDimensions != nil) ||
-      (inputDimensions == nil && outputDimensions == nil)
-      else {
-        print("Invalid input and output dimensions provided.")
-        return
+    public func loadModel(localModelFilePath: String) {
+    let isQuantized = true
+    
+    let localModelSource = LocalModelSource(
+        modelName: modelConfigurations.localModelName,
+        path: localModelFilePath
+    )
+    let modelManager = ModelManager.modelManager()
+    if !modelManager.register(localModelSource) {
+        print("Model source was already registered with name: \(localModelSource.modelName).")
     }
-
+    let options = ModelOptions(cloudModelName: nil,
+                               localModelName: modelConfigurations.localModelName)
+    
     isModelQuantized = isQuantized
-    if let inputDimensions = inputDimensions {
-      modelInputDimensions = inputDimensions
-    }
-
+    
     do {
-        
-      if let outputDimensions = outputDimensions {
-        modelOutputDimensions = outputDimensions
-      } else {
-        modelOutputDimensions = [
-          DetectorConstants.dimensionBatchSize,
-          DetectorConstants.outputDimensionWidth,
-          DetectorConstants.outputDimensionHeight,
-          DetectorConstants.outputDimensionDepth
-        ]
-      }
+      modelOutputDimensions = [
+        modelConfigurations.dimensionBatchSize,
+        modelConfigurations.outputDimensionWidth,
+        modelConfigurations.outputDimensionHeight,
+        modelConfigurations.outputDimensionDepth
+      ]
+      
       modelInterpreter = ModelInterpreter.modelInterpreter(options: options)
       modelElementType = .float32
       try modelInputOutputOptions.setInputFormat(
-        index: DetectorConstants.modelInputIndex,
+        index: 0,
         type: modelElementType,
         dimensions: modelInputDimensions
       )
       try modelInputOutputOptions.setOutputFormat(
-        index: DetectorConstants.modelInputIndex,
+        index: 0,
         type: modelElementType,
         dimensions: modelOutputDimensions
       )
@@ -148,7 +108,6 @@ public class DetectorService: NSObject {
     ///   - topResultsCount: The number of top results to return.
     ///   - completion: The handler to be called on the main thread with detection results or error.
     public func detectObjects(imageData: [Any]?,
-                              topResultsCount: Int = DetectorConstants.topResultsCount,
                               completion: @escaping DetectObjectsCompletion) {
         guard let imageData = imageData else {
             safeDispatchOnMain { completion(nil, DetectorError.failedToDetectObjectsInvalidImage) }
@@ -165,11 +124,10 @@ public class DetectorService: NSObject {
         }
         
         // Run the interpreter for the model with the given input.
-        self.run(inputs: inputs, topResultsCount: topResultsCount, completion: completion)
+        self.run(inputs: inputs, completion: completion)
     }
     
     public func detectObjects(imageData: Data?,
-                              topResultsCount: Int = DetectorConstants.topResultsCount,
                               completion: @escaping DetectObjectsCompletion) {
         guard let imageData = imageData else {
             safeDispatchOnMain { completion(nil, DetectorError.failedToDetectObjectsInvalidImage) }
@@ -186,11 +144,10 @@ public class DetectorService: NSObject {
         }
         
         // Run the interpreter for the model with the given input.
-        self.run(inputs: inputs, topResultsCount: topResultsCount, completion: completion)
+        self.run(inputs: inputs, completion: completion)
     }
     
     func run(inputs: ModelInputs,
-             topResultsCount: Int = DetectorConstants.topResultsCount,
              completion: @escaping DetectObjectsCompletion) {
         // Run the interpreter for the model with the given input.
         modelInterpreter?.run(inputs: inputs, options: modelInputOutputOptions) { (outputs, error) in
@@ -198,7 +155,7 @@ public class DetectorService: NSObject {
                 completion(nil, error)
                 return
             }
-            self.process(outputs, topResultsCount: topResultsCount, completion: completion)
+            self.process(outputs, completion: completion)
         }
     }
 
@@ -208,8 +165,8 @@ public class DetectorService: NSObject {
     ///   - image: The image to scale.
     /// - Returns: The scaled image data or `nil` if the image could not be scaled.
     public func scaledImageData(for ciImage: CIImage) -> [Any]? {
-        let imageWidth = DetectorConstants.dimensionImageWidth.intValue
-        let imageHeight = DetectorConstants.dimensionImageHeight.intValue
+        let imageWidth = modelConfigurations.dimensionImageWidth.intValue
+        let imageHeight = modelConfigurations.dimensionImageHeight.intValue
         let scaledImageSize = CGSize(width: imageWidth, height: imageHeight)
         
         let ctx = CIContext()
@@ -217,8 +174,8 @@ public class DetectorService: NSObject {
         
         guard let scaledImageData = cgImage.scaledImageData(
             with: scaledImageSize,
-            componentsCount: DetectorConstants.dimensionComponents.intValue,
-            batchSize: DetectorConstants.dimensionBatchSize.intValue,
+            componentsCount: modelConfigurations.dimensionComponents.intValue,
+            batchSize: modelConfigurations.dimensionBatchSize.intValue,
             isQuantized: isModelQuantized
             ) else {
                 print("Failed to scale image to size \(scaledImageSize).")
@@ -227,15 +184,15 @@ public class DetectorService: NSObject {
         return scaledImageData
     }
     public func scaledImageData(for uiImage: UIImage) -> [Any]? {
-        let imageWidth = DetectorConstants.dimensionImageWidth.intValue
-        let imageHeight = DetectorConstants.dimensionImageHeight.intValue
+        let imageWidth = modelConfigurations.dimensionImageWidth.intValue
+        let imageHeight = modelConfigurations.dimensionImageHeight.intValue
         let scaledImageSize = CGSize(width: imageWidth, height: imageHeight)
         
         let cgImage: CGImage = uiImage.cgImage!
         
         guard let scaledImageData = cgImage.scaledImageData(with: scaledImageSize,
-                                                            componentsCount: DetectorConstants.dimensionComponents.intValue,
-                                                            batchSize: DetectorConstants.dimensionBatchSize.intValue,
+                                                            componentsCount: modelConfigurations.dimensionComponents.intValue,
+                                                            batchSize: modelConfigurations.dimensionBatchSize.intValue,
                                                             isQuantized: isModelQuantized
             ) else {
                 print("Failed to scale image to size \(scaledImageSize).")
@@ -245,14 +202,13 @@ public class DetectorService: NSObject {
     }
     public func scaledPixcelBuffer(for pixcelBuffer: CVPixelBuffer) -> CVPixelBuffer? {
         return resizePixelBuffer(pixcelBuffer,
-                                 width: DetectorConstants.dimensionImageWidth.intValue,
-                                 height: DetectorConstants.dimensionImageHeight.intValue)
+                                 width: modelConfigurations.dimensionImageWidth.intValue,
+                                 height: modelConfigurations.dimensionImageHeight.intValue)
     }
 
   // MARK: - Private
 
     private func process(_ outputs: ModelOutputs,
-                         topResultsCount: Int,
                          completion: @escaping DetectObjectsCompletion) {
         
         let outputArrayOfArrays: Any
