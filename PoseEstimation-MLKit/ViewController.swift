@@ -153,9 +153,6 @@ extension ViewController {
             
             self.detectorService.detectObjects(imageData: imageData) { (results, error) in
                 self.👨‍🔧.🏷(with: "endInference")
-                self.isInferencing = false
-                // end of measure
-                self.👨‍🔧.🎬🤚()
                 
                 guard error == nil, let heatmaps = results, !heatmaps.isEmpty else {
                     let errorString = error?.localizedDescription ?? Constants.failedToDetectObjectsMessage
@@ -172,6 +169,11 @@ extension ViewController {
                 
                 // show key points description
                 self.showKeypointsDescription(with: n_kpoints)
+                
+                // end of measure
+                self.👨‍🔧.🎬🤚()
+                
+                self.isInferencing = false
             }
         }
     }
