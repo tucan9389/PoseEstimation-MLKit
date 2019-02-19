@@ -55,7 +55,7 @@ extension CGImage {
             for xCoordinate in 0..<newWidth {
                 var pixelArray = [Any]()
                     
-                for component in 0..<newComponentsCount {
+                for component in (0..<newComponentsCount) {
                     let inputIndex =
                           (yCoordinate * newWidth * oldComponentsCount)
                         + (xCoordinate * oldComponentsCount + component)

@@ -146,7 +146,7 @@ extension ViewController {
     
     func detectObjects(uiImage: UIImage) {
         isInferencing = true
-        DispatchQueue.global(qos: .userInitiated).async {
+        //DispatchQueue.global(qos: .userInitiated).async {
             
             // create [Any]? from UIImage
             let imageData = self.detectorService.scaledImageData(for: uiImage)
@@ -158,6 +158,10 @@ extension ViewController {
                     let errorString = error?.localizedDescription ?? Constants.failedToDetectObjectsMessage
                     self.mylabel.text = "Inference error: \(errorString)"
                     print("Inference error: \n\(errorString)")
+                    self.isInferencing = false
+                    
+                    // end of measure
+                    self.👨‍🔧.🎬🤚()
                     return
                 }
 
@@ -175,7 +179,7 @@ extension ViewController {
                 
                 self.isInferencing = false
             }
-        }
+        //}
     }
     
     func convert(heatmaps: [[[NSNumber]]]) -> [BodyPoint?] {

@@ -21,61 +21,61 @@ import Firebase
 
 /// A `UIImage` category for scaling images.
 extension UIImage {
-  /// Returns image scaled according to the given size.
-  ///
-  /// - Paramater size: Maximum size of the returned image.
-  /// - Return: Image scaled according to the give size or `nil` if image resize fails.
-  func scaledImage(with size: CGSize) -> UIImage? {
-    UIGraphicsBeginImageContextWithOptions(size, false, scale)
-    draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
-    let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
-    UIGraphicsEndImageContext()
-
-    // Attempt to convert the scaled image to PNG or JPEG data to preserve the bitmap info.
-    guard let image = scaledImage else { return nil }
-    let imageData = image.pngData() ?? image.jpegData(compressionQuality: Constants.jpegCompressionQuality)
-    guard let finalData = imageData,
-      let finalImage = UIImage(data: finalData)
-      else {
-        return nil
+    /// Returns image scaled according to the given size.
+    ///
+    /// - Paramater size: Maximum size of the returned image.
+    /// - Return: Image scaled according to the give size or `nil` if image resize fails.
+    func scaledImage(with size: CGSize) -> UIImage? {
+        UIGraphicsBeginImageContextWithOptions(size, false, scale)
+        draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
+        let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        // Attempt to convert the scaled image to PNG or JPEG data to preserve the bitmap info.
+        guard let image = scaledImage else { return nil }
+        let imageData = image.pngData() ?? image.jpegData(compressionQuality: Constants.jpegCompressionQuality)
+        guard let finalData = imageData,
+            let finalImage = UIImage(data: finalData)
+            else {
+                return nil
+        }
+        return finalImage
     }
-    return finalImage
-  }
-  
-  // Determines the orientation needed by ML Kit detectors
-  //
-  // Return: The VisionDetectorImageOrientation based on the UIImage's orientation
-  func detectorOrientation() -> VisionDetectorImageOrientation {
-    switch self.imageOrientation {
-    case .up:
-      return .topLeft
-    case .down:
-      return .bottomRight
-    case .left:
-      return .leftBottom
-    case .right:
-      return .rightTop
-    case .upMirrored:
-      return .topRight
-    case .downMirrored:
-      return .bottomLeft
-    case .leftMirrored:
-      return .leftTop
-    case .rightMirrored:
-      return .rightBottom
+    
+    // Determines the orientation needed by ML Kit detectors
+    //
+    // Return: The VisionDetectorImageOrientation based on the UIImage's orientation
+    func detectorOrientation() -> VisionDetectorImageOrientation {
+        switch self.imageOrientation {
+        case .up:
+            return .topLeft
+        case .down:
+            return .bottomRight
+        case .left:
+            return .leftBottom
+        case .right:
+            return .rightTop
+        case .upMirrored:
+            return .topRight
+        case .downMirrored:
+            return .bottomLeft
+        case .leftMirrored:
+            return .leftTop
+        case .rightMirrored:
+            return .rightBottom
+        }
     }
-  }
-  
-  // Creates a VisionImage based on the UIImage orientation
-  //
-  // Return: The VisionImage
-  func toVisionImage() -> VisionImage {
-    let imageOrientation = self.detectorOrientation()
-    let viImage = VisionImage(image: self)
-    viImage.metadata = VisionImageMetadata()
-    viImage.metadata?.orientation = imageOrientation
-    return viImage
-  }
+    
+    // Creates a VisionImage based on the UIImage orientation
+    //
+    // Return: The VisionImage
+    func toVisionImage() -> VisionImage {
+        let imageOrientation = self.detectorOrientation()
+        let viImage = VisionImage(image: self)
+        viImage.metadata = VisionImageMetadata()
+        viImage.metadata?.orientation = imageOrientation
+        return viImage
+    }
 
     /*
     /// Returns scaled image data from the given values.
@@ -174,10 +174,10 @@ extension UIImage {
 // MARK: - Fileprivate
 
 fileprivate enum Constants {
-  static let maxRGBValue: Float32 = 255.0
-  static let meanRGBValue: Float32 = maxRGBValue / 2.0
-  static let stdRGBValue: Float32 = maxRGBValue / 2.0
-  static let jpegCompressionQuality: CGFloat = 0.8
+    static let maxRGBValue: Float32 = 255.0
+    static let meanRGBValue: Float32 = maxRGBValue / 2.0
+    static let stdRGBValue: Float32 = maxRGBValue / 2.0
+    static let jpegCompressionQuality: CGFloat = 0.8
 }
 
 // MARK: - 

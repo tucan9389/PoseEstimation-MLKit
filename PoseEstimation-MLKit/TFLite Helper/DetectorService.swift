@@ -18,89 +18,88 @@ import UIKit
 import Firebase
 
 public enum DetectorError: Int, CustomNSError {
-  case failedToDetectObjectsInvalidImage = 1
-  case failedToDetectObjectsInvalidResults = 2
-
-  // MARK: - CustomNSError
-
-  public static var errorDomain: String { return "com.google.firebaseml.sampleapp.detectorservice" }
-  public var errorCode: Int { return rawValue }
-  public var errorUserInfo: [String: Any] { return [:] }
+    case failedToDetectObjectsInvalidImage = 1
+    case failedToDetectObjectsInvalidResults = 2
+    
+    // MARK: - CustomNSError
+    
+    public static var errorDomain: String { return "com.google.firebaseml.sampleapp.detectorservice" }
+    public var errorCode: Int { return rawValue }
+    public var errorUserInfo: [String: Any] { return [:] }
 }
 
 public class DetectorService: NSObject {
-  public typealias DetectObjectsCompletion = ([[[NSNumber]]]?, Error?) -> Void
+    public typealias DetectObjectsCompletion = ([[[NSNumber]]]?, Error?) -> Void
     
-  let modelInputOutputOptions = ModelInputOutputOptions()
-  var modelInterpreter: ModelInterpreter?
-  var modelElementType: ModelElementType = .float32
-  var isModelQuantized = false
-  var modelConfigurations: ModelConfigurations = PEFMModelConfigurations()
-  var modelInputDimensions: [NSNumber] {
-    get {
-      return [
-        modelConfigurations.dimensionBatchSize,
-        modelConfigurations.dimensionImageWidth,
-        modelConfigurations.dimensionImageHeight,
-        modelConfigurations.dimensionComponents,
-      ]
+    let modelInputOutputOptions = ModelInputOutputOptions()
+    var modelInterpreter: ModelInterpreter?
+    // var modelElementType: ModelElementType = .float32
+    var isModelQuantized = false
+    var modelConfigurations: ModelConfigurations = PEFMModelConfigurations()
+    var modelInputDimensions: [NSNumber] {
+        get {
+            return [
+                modelConfigurations.dimensionBatchSize,
+                modelConfigurations.dimensionImageWidth,
+                modelConfigurations.dimensionImageHeight,
+                modelConfigurations.dimensionComponents,
+            ]
+        }
     }
-  }
-  var modelOutputDimensions = [NSNumber]()
-
-  /// Loads a model with the given options and labels path.
-  ///
-  /// - Parameters:
-  ///   - options: The model options containing the source(s) to load.
-  ///   - labelsPath: The labels file path.
-  ///   - isQuantized: Indicates whether the model uses quantization (i.e. 8-bit fixed point
-  ///     weights and activations). See https://www.tensorflow.org/performance/quantization for more
-  ///     details. If false, a floating point model is used. The default is `true`.
-  ///   - inputDimensions: An array of the input tensor dimensions. Must include `outputDimensions`
-  ///     if `inputDimensions` are specified.
-  ///   - outputDimensions: An array of the output tensor dimensions. Must include `inputDimensions`
-  ///     if `outputDimensions` are specified.
+    var modelOutputDimensions = [NSNumber]()
+    
+    /// Loads a model with the given options and labels path.
+    ///
+    /// - Parameters:
+    ///   - options: The model options containing the source(s) to load.
+    ///   - labelsPath: The labels file path.
+    ///   - isQuantized: Indicates whether the model uses quantization (i.e. 8-bit fixed point
+    ///     weights and activations). See https://www.tensorflow.org/performance/quantization for more
+    ///     details. If false, a floating point model is used. The default is `true`.
+    ///   - inputDimensions: An array of the input tensor dimensions. Must include `outputDimensions`
+    ///     if `inputDimensions` are specified.
+    ///   - outputDimensions: An array of the output tensor dimensions. Must include `inputDimensions`
+    ///     if `outputDimensions` are specified.
     public func loadModel(localModelFilePath: String) {
-    let isQuantized = true
-    
-    let localModelSource = LocalModelSource(
-        modelName: modelConfigurations.localModelName,
-        path: localModelFilePath
-    )
-    let modelManager = ModelManager.modelManager()
-    if !modelManager.register(localModelSource) {
-        print("Model source was already registered with name: \(localModelSource.modelName).")
+        let isQuantized = true
+        
+        let localModelSource = LocalModelSource(
+            modelName: modelConfigurations.localModelName,
+            path: localModelFilePath
+        )
+        let modelManager = ModelManager.modelManager()
+        if !modelManager.register(localModelSource) {
+            print("Model source was already registered with name: \(localModelSource.modelName).")
+        }
+        let options = ModelOptions(cloudModelName: nil,
+                                   localModelName: modelConfigurations.localModelName)
+        
+        isModelQuantized = isQuantized
+        
+        do {
+            modelOutputDimensions = [
+                modelConfigurations.dimensionBatchSize,
+                modelConfigurations.outputDimensionWidth,
+                modelConfigurations.outputDimensionHeight,
+                modelConfigurations.outputDimensionDepth
+            ]
+            
+            modelInterpreter = ModelInterpreter.modelInterpreter(options: options)
+            try modelInputOutputOptions.setInputFormat(
+                index: 0,
+                type: .float32,
+                dimensions: modelInputDimensions
+            )
+            try modelInputOutputOptions.setOutputFormat(
+                index: 0,
+                type: .float32,
+                dimensions: modelOutputDimensions
+            )
+        } catch let error as NSError {
+            fatalError("Failed to load model with error: \(error.localizedDescription)")
+        }
     }
-    let options = ModelOptions(cloudModelName: nil,
-                               localModelName: modelConfigurations.localModelName)
     
-    isModelQuantized = isQuantized
-    
-    do {
-      modelOutputDimensions = [
-        modelConfigurations.dimensionBatchSize,
-        modelConfigurations.outputDimensionWidth,
-        modelConfigurations.outputDimensionHeight,
-        modelConfigurations.outputDimensionDepth
-      ]
-      
-      modelInterpreter = ModelInterpreter.modelInterpreter(options: options)
-      modelElementType = .float32
-      try modelInputOutputOptions.setInputFormat(
-        index: 0,
-        type: modelElementType,
-        dimensions: modelInputDimensions
-      )
-      try modelInputOutputOptions.setOutputFormat(
-        index: 0,
-        type: modelElementType,
-        dimensions: modelOutputDimensions
-      )
-    } catch let error as NSError {
-      fatalError("Failed to load model with error: \(error.localizedDescription)")
-    }
-  }
-
     /// Gets the results from detecting objects from the given image data.
     ///
     /// - Parameters
@@ -158,7 +157,7 @@ public class DetectorService: NSObject {
             self.process(outputs, completion: completion)
         }
     }
-
+    
     /// Returns scaled image data for the given image.
     ///
     /// - Parameters:
@@ -190,13 +189,9 @@ public class DetectorService: NSObject {
         
         let cgImage: CGImage = uiImage.cgImage!
         
-        guard let scaledImageData = cgImage.scaledImageData(with: scaledImageSize,
-                                                            componentsCount: modelConfigurations.dimensionComponents.intValue,
-                                                            batchSize: modelConfigurations.dimensionBatchSize.intValue,
-                                                            isQuantized: isModelQuantized
-            ) else {
-                print("Failed to scale image to size \(scaledImageSize).")
-                return nil
+        guard let scaledImageData = cgImage.scaledImageData(with: scaledImageSize, componentsCount: modelConfigurations.dimensionComponents.intValue, batchSize: modelConfigurations.dimensionBatchSize.intValue, isQuantized: isModelQuantized) else {
+            print("Failed to scale image to size \(scaledImageSize).")
+            return nil
         }
         return scaledImageData
     }
@@ -205,9 +200,9 @@ public class DetectorService: NSObject {
                                  width: modelConfigurations.dimensionImageWidth.intValue,
                                  height: modelConfigurations.dimensionImageHeight.intValue)
     }
-
-  // MARK: - Private
-
+    
+    // MARK: - Private
+    
     private func process(_ outputs: ModelOutputs,
                          completion: @escaping DetectObjectsCompletion) {
         
@@ -222,7 +217,7 @@ public class DetectorService: NSObject {
             return
         }
         
-//        print("type of outputArrayOfArrays:", type(of: outputArrayOfArrays))
+        //        print("type of outputArrayOfArrays:", type(of: outputArrayOfArrays))
         
         guard let outputOuterArray = outputArrayOfArrays as? [[[[NSNumber]]]],
             let outputArray = outputOuterArray.first else {
@@ -238,11 +233,12 @@ public class DetectorService: NSObject {
 // MARK: - Fileprivate
 
 fileprivate func safeDispatchOnMain(_ block: @escaping () -> Void) {
-  if Thread.isMainThread {
-    block()
-  } else {
-    DispatchQueue.main.async {
-      block()
+    if Thread.isMainThread {
+        block()
+    } else {
+        DispatchQueue.main.async {
+            block()
+        }
     }
-  }
 }
+
