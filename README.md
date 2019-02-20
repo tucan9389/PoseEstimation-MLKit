@@ -11,7 +11,7 @@ This project is Pose Estimation on iOS with ML Kit.<br>If you are interested in 
 
 ## How it works
 
-![how_it_works](/Users/canapio/Project/machine%20learning/MoT%20Labs/github_project/ios-project/PoseEstimation-CoreML/resource/how_it_works.png)
+![how_it_works](resource/how_it_works.png)
 
 Video source: [https://www.youtube.com/watch?v=EM16LBKBEgI](https://www.youtube.com/watch?v=EM16LBKBEgI)
 
