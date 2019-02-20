@@ -48,7 +48,7 @@ Pose Estimation model for TensorFlow Lite(`model.tflite`)<br>
 
 #### 1.2 Add permission in info.plist for device's camera access
 
-![prerequest_001_plist](/Users/canapio/Project/machine%20learning/MoT%20Labs/github_project/ios-project/PoseEstimation-CoreML/resource/prerequest_001_plist.png)
+![prerequest_001_plist](resource/prerequest_001_plist.png)
 
 ### 2. Dependencies
 
