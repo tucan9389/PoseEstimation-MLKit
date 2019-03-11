@@ -23,6 +23,8 @@ Video source: [https://www.youtube.com/watch?v=EM16LBKBEgI](https://www.youtube.
 
 ## Download model
 
+### Get PoseEstimationForMobile's model
+
 Pose Estimation model for TensorFlow Lite(`model.tflite`)<br>
 ☞ Download TensorFlow Lite model [model_cpm.tflite](https://github.com/edvardHua/PoseEstimationForMobile/tree/master/release/cpm_model) or [hourglass.tflite](https://github.com/edvardHua/PoseEstimationForMobile/tree/master/release/hourglass_model).
 
@@ -30,13 +32,31 @@ Pose Estimation model for TensorFlow Lite(`model.tflite`)<br>
 >
 > －in [https://github.com/edvardHua/PoseEstimationForMobile](https://github.com/edvardHua/PoseEstimationForMobile)
 
+#### Matadata
+
 |                            | cpm                                      | hourglass          |
 | -------------------------- | ---------------------------------------- | ------------------ |
 | Input shape                | `[1, 192, 192, 3]`                       | `[1, 192, 192, 3]` |
 | Output shape               | `[1, 96, 96, 14]`                        | `[1, 48, 48, 14]`  |
 | Input node name            | `image`                                  | `image`            |
 | Output node name           | `Convolutional_Pose_Machine/stage_5_out` | `hourglass_out_3`  |
-| Inference time on iPhone X | 57 mm                                    | 33 mm              |
+
+#### Inference Time
+
+|                | cpm      | hourglass |
+| -------------- | -------- | -------- |
+| iPhone XS      | (`TODO`) | (`TODO`) |
+| iPhone XS Max  | (`TODO`) | (`TODO`) |
+| iPhone XR      | (`TODO`) | (`TODO`) |
+| iPhone X       | 57 ms    | 33 ms    |
+| iPhone 8+      | (`TODO`) | (`TODO`) |
+| iPhone 8       | (`TODO`) | (`TODO`) |
+| iPhone 7       | (`TODO`) | (`TODO`) |
+| iPhone 6       | (`TODO`) | (`TODO`) |
+
+### Get your own model
+
+> Or you can use your own PoseEstimation model
 
 ## Build & Run
 
@@ -52,8 +72,8 @@ Pose Estimation model for TensorFlow Lite(`model.tflite`)<br>
 
 ### 2. Dependencies
 
-- 
+-
 
 ### 3. Code
 
-(Prepare to publish)
+(Preparing...)
